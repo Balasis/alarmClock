@@ -63,9 +63,9 @@ public class Clock {
         String hoursPrefix=hours<10?"0":"";
         String minutesPrefix=minutes<10?"0":"";
         String secondsPrefix=seconds<10?"0":"";
-        return  "Clock |" + hoursPrefix+ hours +
-                " : " + minutes +
-                " : " + seconds;
+        return  "Clock |" + hoursPrefix + hours +
+                " : " + minutesPrefix +  minutes +
+                " : " + secondsPrefix + seconds;
     }
 
 }
