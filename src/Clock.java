@@ -25,7 +25,7 @@ public class Clock {
 
     private void incrementSeconds(){
         seconds++;
-        if(seconds==60){
+        if(seconds>=60){
             seconds=0;
             incrementMinutes();
         }
@@ -33,7 +33,7 @@ public class Clock {
 
     private void incrementMinutes() {
         minutes++;
-        if (minutes == 60) {
+        if (minutes >= 60) {
             minutes = 0;
             incrementHours();
         }
@@ -41,7 +41,7 @@ public class Clock {
 
     private void incrementHours() {
         hours++;
-        if (hours == 24) {
+        if (hours >= 24) {
             hours = 0;
         }
     }
