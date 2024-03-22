@@ -37,6 +37,17 @@ public class AlarmClock extends Clock{
         initiateAlarmThread();
     }
 
+    public void setAlarmOff(){
+        if (!isAlarmOn){
+            return;
+        }
+        isAlarmOn=false;
+        isThreadRunning=false;
+    }
+
+
+
+
     private void initiateAlarmThread(){
         isThreadRunning=true;
         alarmThread=new Thread( ()->{
@@ -58,8 +69,8 @@ public class AlarmClock extends Clock{
                     decreaseRingingDurationCounter();
                 }
 
-                if (ringingDurationCounter<=0){
-                    setThreadRunning(false);
+                if (ringingDurationCounter<0){
+                    setAlarmOff();
                 }
 
             }
@@ -88,18 +99,6 @@ public class AlarmClock extends Clock{
         ringingToneFrequencyCountdown--;
     }
 
-    private void setThreadRunning(boolean runs){
-        isThreadRunning=runs;
-    }
-
-
-
-
-
-//    private boolean isItRinging(){
-//        return isItRinging;
-//    }
-
     private void timesTicking(){
         try {
             Thread.sleep(1000);
@@ -108,31 +107,8 @@ public class AlarmClock extends Clock{
         }
     }
 
-
-
-//    private int ringingToneFrequencyCountdown(){
-//        return ringingToneFrequencyCountdown;
-//    }
-
-
-
-
-
-//    private int ringingDurationCounter(){
-//        return ringingDurationCounter;
-//    }
-//
-//    private void resetRingingDurationCounter(){
-//        ringingDurationCounter=ringingDuration;
-//    }
-
     private void decreaseRingingDurationCounter(){
         ringingDurationCounter--;
     }
 
-
-    @Override
-    public String toString() {
-        return  super.toString();
-    }
 }
