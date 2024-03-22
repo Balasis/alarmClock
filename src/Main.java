@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-    Clock clock=new Clock(23,59,55);
-
+    AlarmClock clock=new AlarmClock(0,0,50,0,1);
+    clock.setAlarmOn();
         while(true){
             try{
                 System.out.println(clock);
