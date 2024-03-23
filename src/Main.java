@@ -3,7 +3,7 @@ public class Main {
     private static Scanner myScanObj;
 
     public static void main(String[] args) {
-    AlarmClock clock=new AlarmClock(0,0,50,0,1);
+    AlarmClock clock=new AlarmClock(0,0,55,0,1);
 
     Thread thread=new Thread( ()->{
         viewClock(clock);
