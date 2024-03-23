@@ -4,13 +4,13 @@ public class AlarmClock extends Clock{
     private int alarmMinutes=0;
 
     private boolean isAlarmOn;
-    private boolean isItRinging;
+    private boolean isThereARingSoundPlaying;
+    private int alarmVolume;// by %
 
-    private int ringingToneFrequency=4;
-    private int ringingToneFrequencyCountdown;
+    private final int secBeforeReplayingMelody=20;
+    private int secBeforeReplayingMelodyCounter =20;
 
-    private int ringingDuration=12;
-    private int ringingDurationCounter=12;
+    private int secBeforeAlarmAutoAbortCounter=60;
 
     private Thread alarmThread;
     private boolean isThreadRunning;
@@ -45,37 +45,21 @@ public class AlarmClock extends Clock{
         isThreadRunning=false;
     }
 
-
-
-
     private void initiateAlarmThread(){
         isThreadRunning=true;
         alarmThread=new Thread( ()->{
             while(isThreadRunning){
-
-                if (isItTimeToRing()){
-                    startRinging();
+                if (isItTimeToRing() && !isThereARingSoundPlaying){
+                       playRingSound();
                 }
-
-                if (isItRinging && ringingToneFrequencyCountdown==0){
-                    ring();
-                    resetRingingToneFrequencyCountdown();//resets to frequency value e.g : 4
-                }
-
-                timesTicking();
-
-                if (isItRinging){
-                    decreaseRingingToneFrequencyCountdown();
-                    decreaseRingingDurationCounter();
-                }
-
-                if (ringingDurationCounter<0){
+                timesTicking();//Thread sleep 1s| protected method,exists in Clock class
+                updateRingSoundProperties();
+                updateAutoAbortAlarmTimer();
+                if (secBeforeAlarmAutoAbortCounter <0){
                     setAlarmOff();
                 }
-
             }
         });
-
         alarmThread.start();
     }
 
@@ -83,32 +67,27 @@ public class AlarmClock extends Clock{
         return alarmHour==super.getHours() && alarmMinutes==super.getMinutes();
     }
 
-    private void startRinging(){
-        isItRinging=true;
-    }
+    private void playRingSound(){
 
-    private void ring(){
-        System.out.println("WAKE UP!!!");
+        isThereARingSoundPlaying =true;
+        alarmVolume= (secBeforeReplayingMelody-secBeforeReplayingMelodyCounter)/;
+        System.out.println("Wake UP!!! sound volume : "+ alarmVolume);//melody obj here...
     }
-
-    private void resetRingingToneFrequencyCountdown(){
-        ringingToneFrequencyCountdown =ringingToneFrequency;
-    }
-
-    private void decreaseRingingToneFrequencyCountdown(){
-        ringingToneFrequencyCountdown--;
-    }
-
-    private void timesTicking(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    private void updateRingSoundProperties(){
+        secBeforeReplayingMelodyCounter--;
+        if (secBeforeReplayingMelodyCounter <0){
+            isThereARingSoundPlaying=false;
+            secBeforeReplayingMelodyCounter =secBeforeReplayingMelody;
+            alarmVolume=0;
         }
     }
 
-    private void decreaseRingingDurationCounter(){
-        ringingDurationCounter--;
+    private void updateAutoAbortAlarmTimer(){
+        secBeforeAlarmAutoAbortCounter--;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

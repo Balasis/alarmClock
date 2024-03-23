@@ -13,14 +13,18 @@ public class Clock {
         Thread clocksThread = new Thread(() -> {
             while (true) {
                 incrementSeconds();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                timesTicking();
             }
         });
         clocksThread.start();
+    }
+
+    void timesTicking(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void incrementSeconds(){
