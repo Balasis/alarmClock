@@ -48,12 +48,19 @@ public class AlarmClock extends Clock{
     private void initiateAlarmThread(){
         isThreadRunning=true;
         alarmThread=new Thread( ()->{
+            //a Ring Sound is playing in intervals, during the playing there is an increase
+            //in volume till the ring sound its being reset
             while(isThreadRunning){
                 if (isItTimeToRing() && !isThereARingSoundPlaying){
                        playRingSound();
                 }
                 timesTicking();//Thread sleep 1s| protected method,exists in Clock class
-                updateRingSoundProperties();
+                increaseRingVolume();
+                if (isItTimeToReplayTheSound()){
+                    stopCurrentAlarmSound();
+                    resetRingSoundProperties();
+                }
+                updateSecBeforeReplayingMelodyCounter();
                 updateAutoAbortAlarmTimer();
                 if (secBeforeAlarmAutoAbortCounter <0){
                     setAlarmOff();
@@ -68,18 +75,29 @@ public class AlarmClock extends Clock{
     }
 
     private void playRingSound(){
-
         isThereARingSoundPlaying =true;
-        alarmVolume= (secBeforeReplayingMelody-secBeforeReplayingMelodyCounter)/;
         System.out.println("Wake UP!!! sound volume : "+ alarmVolume);//melody obj here...
     }
-    private void updateRingSoundProperties(){
+    private void increaseRingVolume(){
+        alarmVolume= secBeforeReplayingMelodyCounter/(secBeforeReplayingMelody-secBeforeReplayingMelodyCounter);
+    }
+
+    private void updateSecBeforeReplayingMelodyCounter(){
         secBeforeReplayingMelodyCounter--;
-        if (secBeforeReplayingMelodyCounter <0){
-            isThereARingSoundPlaying=false;
-            secBeforeReplayingMelodyCounter =secBeforeReplayingMelody;
-            alarmVolume=0;
-        }
+
+    }
+
+    private boolean isItTimeToReplayTheSound(){
+        return secBeforeReplayingMelodyCounter < 0;
+    }
+
+    private void stopCurrentAlarmSound(){
+        isThereARingSoundPlaying=false;
+    }
+
+    private void resetRingSoundProperties(){
+        secBeforeReplayingMelodyCounter =secBeforeReplayingMelody;
+        alarmVolume=0;
     }
 
     private void updateAutoAbortAlarmTimer(){
