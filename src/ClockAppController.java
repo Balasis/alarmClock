@@ -11,6 +11,8 @@ public class ClockAppController {
         });
         thread.start();
         clock.setAlarmOn();
+        myScanObj.nextLine();
+        clock.setAlarmOff();
     }
 
     private void viewClock(AlarmClock clock){

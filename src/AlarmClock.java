@@ -37,12 +37,17 @@ public class AlarmClock extends Clock{
     }
 
     public void setAlarmOff(){
+        System.out.println("got");
         isAlarmOn=false;
+        if (soundPlayer!=null){
+            abortAlarm();
+        }
     }
 
     private void initiateAlarmThread(){
         Thread alarmThread = new Thread(() -> {
             while (isAlarmOn) {
+                System.out.println("everyTime");
                 timesTicking(1000);//Thread sleep 1s| protected method,exists in Clock class
                 if (isItTimeToRing() && !isAlarmProcessAlreadyDone) {
                     isAlarmProcessAlreadyDone =true;
@@ -71,10 +76,11 @@ public class AlarmClock extends Clock{
     }
 
     private void ring(){
-        isThereARingSoundPlaying =true;
-        if (soundPlayer!=null){
+        //Prevent from recreation of soundPlayer if it already exist OR user manually set the AlarmOff
+        if (soundPlayer!=null || !isAlarmOn){
             return;
         }
+        isThereARingSoundPlaying =true;
         soundPlayer=new SoundPlayer("alarmSound.wav");
         soundPlayer.play();
     }
@@ -109,7 +115,7 @@ public class AlarmClock extends Clock{
     }
 
     private void abortAlarm(){
-        setAlarmOff();
+        isAlarmOn=false;
         resetSoundRelatedValues();
         secBeforeAlarmAutoAbortCounter = secBeforeAlarmAutoAbort;
     }
