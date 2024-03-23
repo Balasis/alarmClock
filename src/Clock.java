@@ -2,18 +2,19 @@ public class Clock {
     private int seconds;
     private int minutes;
     private int hours;
-    // You cant change variables inside lambda BUT you can call methods to change them for ya...
-    // although the disadvantage remain if methods require different parameters ; ? ...perhaps
-    // in the case of just having an interval you could call another methods that inside there you call methods
-    //with updated parameters.
+
     public Clock(int hours, int minutes , int seconds) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
+        startClock();
+    }
+
+    private void startClock(){
         Thread clocksThread = new Thread(() -> {
             while (true) {
-                incrementSeconds();
                 timesTicking();
+                incrementSeconds();
             }
         });
         clocksThread.start();

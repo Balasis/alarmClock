@@ -2,19 +2,14 @@ public class AlarmClock extends Clock{
     //default alarm ,like regular alarm clocks there is always a default one...
     private int alarmHour=0;
     private int alarmMinutes=0;
-
+    private int alarmVolume;// by %
+    private int secBeforeReplayingMelodyCounter =20;
+    private int secBeforeAlarmAutoAbortCounter=60;
+    private final int secBeforeReplayingMelody=20;
+    private boolean isThreadRunning;
     private boolean isAlarmOn;
     private boolean isThereARingSoundPlaying;
-    private int alarmVolume;// by %
-
-    private final int secBeforeReplayingMelody=20;
-    private int secBeforeReplayingMelodyCounter =20;
-
-    private int secBeforeAlarmAutoAbortCounter=60;
-
     private Thread alarmThread;
-    private boolean isThreadRunning;
-
     public AlarmClock(int hours, int minutes, int seconds) {
         super(hours, minutes, seconds);
     }
@@ -70,6 +65,7 @@ public class AlarmClock extends Clock{
             }
         });
         alarmThread.start();
+
     }
 
     private boolean isItTimeToRing(){
