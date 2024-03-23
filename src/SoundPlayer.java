@@ -18,8 +18,8 @@ public class SoundPlayer {
     }
 
     public void play(){
-            clip.start();
-            setVolumePercentage(volumePercentage);
+        clip.start();
+        setVolumePercentage(volumePercentage);
     }
 
     public void stop(){

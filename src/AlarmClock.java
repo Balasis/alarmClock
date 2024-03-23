@@ -37,7 +37,6 @@ public class AlarmClock extends Clock{
     }
 
     public void setAlarmOff(){
-        System.out.println("got");
         isAlarmOn=false;
         if (soundPlayer!=null){
             abortAlarm();
@@ -47,7 +46,6 @@ public class AlarmClock extends Clock{
     private void initiateAlarmThread(){
         Thread alarmThread = new Thread(() -> {
             while (isAlarmOn) {
-                System.out.println("everyTime");
                 timesTicking(1000);//Thread sleep 1s| protected method,exists in Clock class
                 if (isItTimeToRing() && !isAlarmProcessAlreadyDone) {
                     isAlarmProcessAlreadyDone =true;
