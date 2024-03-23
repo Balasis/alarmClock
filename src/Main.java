@@ -11,8 +11,6 @@ public class Main {
 
     clock.setAlarmOn();
 
-
-
      }
 
     private static void viewClock(AlarmClock clock){

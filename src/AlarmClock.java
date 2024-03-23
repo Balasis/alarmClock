@@ -55,12 +55,14 @@ public class AlarmClock extends Clock{
                        playRingSound();
                 }
                 timesTicking();//Thread sleep 1s| protected method,exists in Clock class
-                increaseRingVolume();
+                if (isThereARingSoundPlaying){
+                    increaseRingVolume();
+                    updateSecBeforeReplayingMelodyCounter();
+                }
                 if (isItTimeToReplayTheSound()){
                     stopCurrentAlarmSound();
                     resetRingSoundProperties();
                 }
-                updateSecBeforeReplayingMelodyCounter();
                 updateAutoAbortAlarmTimer();
                 if (secBeforeAlarmAutoAbortCounter <0){
                     setAlarmOff();
@@ -76,10 +78,9 @@ public class AlarmClock extends Clock{
 
     private void playRingSound(){
         isThereARingSoundPlaying =true;
-        System.out.println("Wake UP!!! sound volume : "+ alarmVolume);//melody obj here...
     }
     private void increaseRingVolume(){
-        alarmVolume= secBeforeReplayingMelodyCounter/(secBeforeReplayingMelody-secBeforeReplayingMelodyCounter);
+        alarmVolume=((secBeforeReplayingMelody - secBeforeReplayingMelodyCounter) * 100) / secBeforeReplayingMelody;
     }
 
     private void updateSecBeforeReplayingMelodyCounter(){
@@ -106,6 +107,7 @@ public class AlarmClock extends Clock{
 
     @Override
     public String toString() {
-        return super.toString();
+        String wakeUp=isThereARingSoundPlaying ? " Ring Vol(" +alarmVolume+")" : "";
+        return super.toString() + wakeUp;
     }
 }
