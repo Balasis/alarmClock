@@ -13,16 +13,16 @@ public class Clock {
     private void startClock(){
         Thread clocksThread = new Thread(() -> {
             while (true) {
-                timesTicking();
+                timesTicking(1000);
                 incrementSeconds();
             }
         });
         clocksThread.start();
     }
 
-    void timesTicking(){
+    void timesTicking(int millis){
         try {
-            Thread.sleep(1000);
+            Thread.sleep(millis);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
