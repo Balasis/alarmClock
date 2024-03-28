@@ -37,7 +37,7 @@ public class Clock {
     }
 
     private void incrementMinutes() {
-        minutes++;
+            minutes++;
         if (minutes >= 60) {
             minutes = 0;
             incrementHours();
